@@ -5,23 +5,25 @@ export const GET_REPOS = gql`
     repositories(pageItems: $pageItems, page: $page) {
       name
       size
-      #   owner {
-      #     login
-      #   }
+      owner {
+        login
+      }
     }
   }
 `;
 
 export const GET_REPO_DETAILS = gql`
   query getRepoDetails($owner: String!, $repoName: String!) {
-    repositoryDetails(owner: $owner, repoName: $repoName) {
+    repositoryDetails(user: $owner, repo: $repoName) {
       name
       size
-      owner
+      owner {
+        login
+      }
       private
-      fileCount
-      fileContent
-      webhooks
+      #   fileCount
+      #   fileContent
+      #   webhooks
     }
   }
 `;

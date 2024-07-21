@@ -1,13 +1,60 @@
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+:root {
+  --main-background-color: #0d1017;
+  --main-border-color: #30363d;
+  --border-radius-medium: 0.375rem;
+  --border-width-thin: max(1px, 0.0625rem);
+  --color-fg-muted: #8d96a0;
+  --color-fg-primary: #4493f8;
+}
+
+::-webkit-scrollbar {
+  width: 0.5em;
+  background-color: var(--main-background-color);
+  
+}
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.00);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-fg-primary);
+  border-radius: var(--border-radius-medium);
+}
+
 body {
+  background-color: var(--main-background-color);
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  color: var(--color-fg-muted);
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.MuiPagination-root {
+  button {
+      color: var(--color-fg-muted) !important;
+ }
+}
+.MuiOutlinedInput-notchedOutline, .MuiSvgIcon-root {
+  border-color: var(--main-border-color) !important;
+  color: var(--color-fg-muted) !important;
+}
+
+.MuiSelect-select, .Mui-selected, .MuiPaper-root {
+  background-color: var(--main-background-color) !important; 
+  color: var(--color-fg-muted) !important;
+
+  border-radius: var(--border-radius-medium);
+  border-color: var(--main-border-color);
+  border-width: var(--border-width-thin);
+  border-style: solid;
 }
