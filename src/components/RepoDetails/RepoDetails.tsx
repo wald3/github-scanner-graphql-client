@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_REPO_DETAILS } from './../../graphql/queries';
-import { CircularProgress, Typography, List, ListItem, Snackbar } from '@mui/material';
+import { CircularProgress, Typography, List, ListItem, Snackbar, Chip, Box } from '@mui/material';
 import './RepoDetails.css';
 
+import { 
+  FindInPageOutlined as FindInPageOutlinedIcon, 
+  InsertDriveFileOutlined as InsertDriveFileOutlinedIcon, 
+  LockOpenOutlined as LockOpenOutlinedIcon,
+   LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
+import WebhookList from '../sub-components/WebHookList/WebhookList';
 interface RepoDetailsProps {
   owner: string;
   repoName: string;
@@ -38,12 +44,30 @@ function RepoDetails({ owner, repoName }: RepoDetailsProps) {
           autoHideDuration={5000}
         />
       )}
-      <Typography variant="h6">{name}</Typography>
-      <Typography variant="body1">Size: {size}</Typography>
-      <Typography variant="body1">Private: {isPrivate ? 'Yes' : 'No'}</Typography>
-      <Typography variant="body1">File Count: {fileCount}</Typography>
-      <Typography variant="body1">File Content: {fileContent}</Typography>
-      <Typography variant="body1">Webhooks:</Typography>
+
+      <div className='repo-details-header'>
+        <div className='repo-private'>
+
+
+
+          <Chip label={<Box sx={{ color: "var(--color-fg-muted)" }}>        {isPrivate ? (
+          <LockOutlinedIcon />
+        ) : (
+          <LockOpenOutlinedIcon />
+        )}{isPrivate ? 'Private' : 'Public'}</Box>} variant="outlined"/>
+        </div>
+        <div className='repo-file-count'>
+          <InsertDriveFileOutlinedIcon/>
+          <Chip label={<Box sx={{ color: "var(--color-fg-muted)" }}>{fileCount}</Box>} variant="outlined" />
+        </div>
+        <div className='repo-file-exists'>
+          <FindInPageOutlinedIcon />
+          <Chip label={<Box sx={{ color: "var(--color-fg-muted)" }}>{fileContent ? 'Exists' : 'Not Found'}</Box>} variant="outlined" />
+        </div>
+      </div>
+
+      <WebhookList webhooks = {['a'.repeat(30), 'b'.repeat(30)]}></WebhookList>
+
       <List>
         {webhooks?.map((hook: string, index: number) => (
           <ListItem key={index}>{hook}</ListItem>

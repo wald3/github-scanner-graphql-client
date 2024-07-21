@@ -21,7 +21,7 @@ export const GET_REPO_DETAILS = gql`
         login
       }
       private
-      #   fileCount
+      fileCount
       #   fileContent
       #   webhooks
     }

@@ -1,8 +1,13 @@
 .repo-details {
     padding: 20px;
-    border: 1px solid #ddd;
+    border: var(--border-width-thin) solid var(--main-border-color);
+    background-color: var(--main-background-color);
+    border-radius: var(--border-radius-medium);
     margin-top: 10px;
-    background-color: #fff;
-    border-radius: 8px;
   }
   
+  .repo-details-header {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+  }

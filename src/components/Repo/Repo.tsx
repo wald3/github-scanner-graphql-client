@@ -33,7 +33,7 @@ function Repo({ name, size, owner }: RepoProps) {
       setIsOpen(!isOpen);
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000); // Simulate data fetching
+      }, 1000);
     }
   };
 

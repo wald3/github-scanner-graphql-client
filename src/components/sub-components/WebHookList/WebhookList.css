@@ -1,0 +1,9 @@
+.webhook-list {
+    /* p: 0; */
+    width: 100%;
+    /* max-width: 360; */
+    border-radius: var(--border-radius-medium);
+    border:  var(--border-width-thin) solid  var(--main-border-color) ;
+    background-color: red !important;
+  };
+  
