@@ -6,8 +6,21 @@
   margin-top: 10px;
 }
 
-.repo-details-header {
+.repo-details-header,
+.repo-details-header > * {
   display: flex;
   justify-content: space-evenly;
   align-content: center;
+}
+
+.repo-details-header > div {
+  gap: 8px;
+}
+
+.repo-details-text {
+  align-self: center;
+}
+
+.svg_icons {
+  transform: scale(1.2);
 }

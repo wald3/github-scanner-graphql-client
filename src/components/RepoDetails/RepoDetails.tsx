@@ -1,12 +1,5 @@
 import { useQuery } from '@apollo/client';
-import {
-  Box,
-  Chip,
-  CircularProgress,
-  List,
-  ListItem,
-  Snackbar,
-} from '@mui/material';
+import { CircularProgress, List, ListItem, Snackbar } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { GET_REPO_DETAILS } from './../../graphql/queries';
 import './RepoDetails.css';
@@ -60,36 +53,24 @@ function RepoDetails({ owner, repoName }: RepoDetailsProps) {
 
       <div className="repo-details-header">
         <div className="repo-private">
-          <Chip
-            label={
-              <Box sx={{ color: 'var(--color-fg-muted)' }}>
-                {' '}
-                {isPrivate ? <LockOutlinedIcon /> : <LockOpenOutlinedIcon />}
-                {isPrivate ? 'Private' : 'Public'}
-              </Box>
-            }
-            variant="outlined"
-          />
+          {isPrivate ? (
+            <LockOutlinedIcon className="svg_icons" />
+          ) : (
+            <LockOpenOutlinedIcon className="svg_icons" />
+          )}
+          <div className="repo-details-text">
+            {isPrivate ? 'Private' : 'Public'}
+          </div>
         </div>
         <div className="repo-file-count">
-          <InsertDriveFileOutlinedIcon />
-          <Chip
-            label={
-              <Box sx={{ color: 'var(--color-fg-muted)' }}>{fileCount}</Box>
-            }
-            variant="outlined"
-          />
+          <InsertDriveFileOutlinedIcon className="svg_icons" />
+          <div className="repo-details-text">{fileCount}</div>
         </div>
         <div className="repo-file-exists">
-          <FindInPageOutlinedIcon />
-          <Chip
-            label={
-              <Box sx={{ color: 'var(--color-fg-muted)' }}>
-                {fileContent ? 'Exists' : 'Not Found'}
-              </Box>
-            }
-            variant="outlined"
-          />
+          <FindInPageOutlinedIcon className="svg_icons" />
+          <div className="repo-details-text">
+            {fileContent ? 'Exists' : 'Not Found'}
+          </div>
         </div>
       </div>
 
