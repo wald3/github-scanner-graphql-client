@@ -1,11 +1,10 @@
-import React from 'react';
-import { ApolloProvider, InMemoryCache, ApolloClient } from '@apollo/client';
-import RepoList from './components/RepoList/RepoList';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './App.css';
+import RepoList from './components/RepoList/RepoList';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
 });
 
 function App() {

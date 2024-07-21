@@ -15,10 +15,9 @@ code {
 ::-webkit-scrollbar {
   width: 0.5em;
   background-color: var(--main-background-color);
-  
 }
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.00);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -30,7 +29,7 @@ body {
   background-color: var(--main-background-color);
   margin: 0;
   color: var(--color-fg-muted);
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -41,16 +40,19 @@ body {
 
 .MuiPagination-root {
   button {
-      color: var(--color-fg-muted) !important;
- }
+    color: var(--color-fg-muted) !important;
+  }
 }
-.MuiOutlinedInput-notchedOutline, .MuiSvgIcon-root {
+.MuiOutlinedInput-notchedOutline,
+.MuiSvgIcon-root {
   border-color: var(--main-border-color) !important;
   color: var(--color-fg-muted) !important;
 }
 
-.MuiSelect-select, .Mui-selected, .MuiPaper-root {
-  background-color: var(--main-background-color) !important; 
+.MuiSelect-select,
+.Mui-selected,
+.MuiPaper-root {
+  background-color: var(--main-background-color) !important;
   color: var(--color-fg-muted) !important;
 
   border-radius: var(--border-radius-medium);

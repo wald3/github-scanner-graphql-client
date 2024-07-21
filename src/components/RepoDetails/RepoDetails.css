@@ -1,13 +1,13 @@
 .repo-details {
-    padding: 20px;
-    border: var(--border-width-thin) solid var(--main-border-color);
-    background-color: var(--main-background-color);
-    border-radius: var(--border-radius-medium);
-    margin-top: 10px;
-  }
-  
-  .repo-details-header {
-    display: flex;
-    justify-content: space-evenly;
-    align-content: center;
-  }
+  padding: 20px;
+  border: var(--border-width-thin) solid var(--main-border-color);
+  background-color: var(--main-background-color);
+  border-radius: var(--border-radius-medium);
+  margin-top: 10px;
+}
+
+.repo-details-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-content: center;
+}

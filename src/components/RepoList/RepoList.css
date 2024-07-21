@@ -1,12 +1,12 @@
 .repo-list {
-    max-width: 700px;
-    text-align: center;
-    margin: 50px auto;
-  }
+  max-width: 700px;
+  text-align: center;
+  margin: 50px auto;
+}
 
 .pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 24px;
 }
