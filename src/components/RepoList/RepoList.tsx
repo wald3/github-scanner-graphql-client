@@ -7,7 +7,7 @@ import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import './RepoList.css';
 
 function RepoList() {
-  const [pageItems, setPageItems] = useState(10);
+  const [pageItems, setPageItems] = useState(100);
   const { showSnackbar } = useSnackbar();
 
   const { loading, data, error } = useQuery(GET_REPOS, {
@@ -30,7 +30,7 @@ function RepoList() {
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {data?.repositories.map((repo: any) => (
             <Repo
-              key={repo.name}
+              key={`${repo.owner.login}:${repo.name}`}
               name={repo.name}
               size={repo.size}
               owner={repo.owner}

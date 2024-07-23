@@ -24,3 +24,8 @@
 .svg_icons {
   transform: scale(1.2);
 }
+
+.repo-file-content {
+  text-align: left;
+  border-radius: var(--border-radius-medium);
+}

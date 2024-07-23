@@ -1,7 +1,8 @@
 import { Divider, List, ListItem, ListItemText } from '@mui/material';
+import { Webhook } from '../../RepoDetails/RepoDetails';
 
 interface WebhookListProps {
-  webhooks: string[];
+  webhooks: Webhook[];
 }
 
 const style = {
@@ -16,10 +17,9 @@ const style = {
 function WebhookList(props: WebhookListProps) {
   return (
     <List sx={style}>
-      {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
-      {props?.webhooks.map((webhook: any) => (
-        <ListItem key={webhook}>
-          <ListItemText primary={webhook} />
+      {props?.webhooks.map((webhook: Webhook) => (
+        <ListItem key={webhook.id}>
+          <ListItemText primary={webhook.url} />
           <Divider className="devider" />
         </ListItem>
       ))}

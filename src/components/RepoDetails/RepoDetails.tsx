@@ -5,17 +5,35 @@ import {
   LockOpenOutlined as LockOpenOutlinedIcon,
   LockOutlined as LockOutlinedIcon,
 } from '@mui/icons-material';
-import { List, ListItem } from '@mui/material';
+import SyntaxHighlighter from 'react-syntax-highlighter';
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import WebhookList from '../sub-components/WebHookList/WebhookList';
 import { GET_REPO_DETAILS } from './../../graphql/queries';
 import './RepoDetails.css';
 
+interface RepoDetails {
+  repositoryDetails: {
+    private: boolean;
+    fileCount: number;
+    fileContent: string | null;
+    webhooks: Webhook[];
+  };
+}
+
+export interface Webhook {
+  id: number;
+  url: string;
+  type: string;
+  name: string;
+  active: boolean;
+}
+
 interface RepoDetailsProps {
   owner: string;
   repoName: string;
-  onFetchComplete: (data: any, error: any) => void;
-  existingData: any;
+  onFetchComplete: (data: RepoDetails | null, error: any) => void;
+  existingData: RepoDetails | null;
 }
 
 function RepoDetails({
@@ -26,7 +44,7 @@ function RepoDetails({
 }: RepoDetailsProps) {
   const { showSnackbar } = useSnackbar();
 
-  const { loading, data, error } = useQuery(GET_REPO_DETAILS, {
+  const { loading, data, error } = useQuery<RepoDetails>(GET_REPO_DETAILS, {
     variables: { owner, repoName },
     skip: !!existingData,
     onCompleted: (data) => onFetchComplete(data, null),
@@ -41,6 +59,8 @@ function RepoDetails({
   if (error) return null;
 
   const repoData = existingData || data;
+  if (!repoData) return null;
+
   const {
     private: isPrivate,
     fileCount,
@@ -73,13 +93,21 @@ function RepoDetails({
         </div>
       </div>
 
-      <WebhookList webhooks={webhooks} />
+      <div>
+        <div className="repo-webhooks">
+          <p>Active Webhooks: {webhooks.length}</p>
+          {webhooks.length > 0 && <WebhookList webhooks={webhooks} />}
+        </div>
+        {fileContent && (
+          <div className="repo-file-content">
+            <p>File content:</p>
 
-      <List>
-        {webhooks?.map((hook: string, index: number) => (
-          <ListItem key={index}>{hook}</ListItem>
-        ))}
-      </List>
+            <SyntaxHighlighter showLineNumbers language="yaml" style={dark}>
+              {fileContent}
+            </SyntaxHighlighter>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
