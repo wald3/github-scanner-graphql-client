@@ -22,8 +22,14 @@ export const GET_REPO_DETAILS = gql`
       }
       private
       fileCount
-      #   fileContent
-      #   webhooks
+      fileContent
+      webhooks {
+        id
+        url
+        type
+        name
+        active
+      }
     }
   }
 `;

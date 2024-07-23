@@ -3,7 +3,6 @@ import {
   CircularProgress,
   List,
   MenuItem,
-  Pagination,
   Paper,
   Select,
   Snackbar,
@@ -58,11 +57,6 @@ function RepoList() {
       </Paper>
 
       <div className="pagination">
-        <Pagination
-          count={Math.ceil(data?.repositories.length / pageItems)}
-          page={page}
-          onChange={(e, value) => setPage(value)}
-        />
         <Select
           className="page-items"
           value={pageItems}

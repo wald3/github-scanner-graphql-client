@@ -1,6 +1,7 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './App.css';
 import RepoList from './components/RepoList/RepoList';
+import { SnackbarProvider } from './components/sub-components/SnackbarAlert/SnackbarAlert';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000',
@@ -9,11 +10,13 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <div className="App">
-        <RepoList />
-      </div>
-    </ApolloProvider>
+    <SnackbarProvider>
+      <ApolloProvider client={client}>
+        <div className="App">
+          <RepoList />
+        </div>
+      </ApolloProvider>
+    </SnackbarProvider>
   );
 }
 

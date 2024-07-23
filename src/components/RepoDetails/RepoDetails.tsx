@@ -1,6 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { CircularProgress, List, ListItem, Snackbar } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { CircularProgress, List, ListItem } from '@mui/material';
 import { GET_REPO_DETAILS } from './../../graphql/queries';
 import './RepoDetails.css';
 
@@ -10,6 +9,7 @@ import {
   LockOpenOutlined as LockOpenOutlinedIcon,
   LockOutlined as LockOutlinedIcon,
 } from '@mui/icons-material';
+import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import WebhookList from '../sub-components/WebHookList/WebhookList';
 interface RepoDetailsProps {
   owner: string;
@@ -17,26 +17,18 @@ interface RepoDetailsProps {
 }
 
 function RepoDetails({ owner, repoName }: RepoDetailsProps) {
-  const [error, setError] = useState<string | null>(null);
-  const {
-    loading,
-    data,
-    error: queryError,
-  } = useQuery(GET_REPO_DETAILS, {
+  const { showSnackbar } = useSnackbar();
+  const { loading, data, error } = useQuery(GET_REPO_DETAILS, {
     variables: { owner, repoName },
+    onError: (error) => {
+      const msg = (error as any).networkError['result']['errors'][0]['message'];
+      showSnackbar(msg);
+    },
   });
-
-  useEffect(() => {
-    if (queryError) {
-      setError(queryError.message);
-      const timer = setTimeout(() => setError(null), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [queryError]);
 
   if (loading) return <CircularProgress />;
 
-  if (queryError) return null;
+  if (error) return null;
 
   const {
     private: isPrivate,
@@ -47,10 +39,6 @@ function RepoDetails({ owner, repoName }: RepoDetailsProps) {
 
   return (
     <div className="repo-details">
-      {error && (
-        <Snackbar open={true} message={error} autoHideDuration={5000} />
-      )}
-
       <div className="repo-details-header">
         <div className="repo-private">
           {isPrivate ? (

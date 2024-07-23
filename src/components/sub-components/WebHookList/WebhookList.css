@@ -6,3 +6,7 @@
   border: var(--border-width-thin) solid var(--main-border-color);
   background-color: red !important;
 }
+
+.devider {
+  background-color: aqua;
+}
