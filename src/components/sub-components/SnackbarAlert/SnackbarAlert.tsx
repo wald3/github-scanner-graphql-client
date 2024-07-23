@@ -1,8 +1,7 @@
-// SnackbarContext.tsx
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import React, { createContext, ReactNode, useContext, useState } from 'react';
-
+import './SnackBarAlert.css';
 interface SnackbarContextType {
   showSnackbar: (message: string, severity?: AlertProps['severity']) => void;
 }
@@ -28,12 +27,18 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] =
     useState<AlertProps['severity']>('error');
+  const [shake, setShake] = useState(false);
 
   const showSnackbar = (
     message: string,
     severity: AlertProps['severity'] = 'error',
   ) => {
-    setSnackbarMessage(message);
+    if (snackbarMessage == message) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+    } else {
+      setSnackbarMessage(message);
+    }
     setSnackbarSeverity(severity);
     setSnackbarOpen(true);
   };
@@ -46,13 +51,16 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
     <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
       <Snackbar
-        className="alert-snackbar"
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
         autoHideDuration={3000}
         onClose={handleCloseSnackbar}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
+        <Alert
+          className={`alert-snackbar ${shake ? 'scale' : ''}`}
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+        >
           {snackbarMessage}
         </Alert>
       </Snackbar>

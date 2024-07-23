@@ -50,6 +50,20 @@
   right: 5px;
 }
 
+.repo-details-container {
+  overflow: hidden;
+  max-height: 0;
+  transition:
+    max-height 1s ease-in-out,
+    opacity 0.5s ease-in-out;
+  opacity: 0;
+}
+
+.repo-details-container.open {
+  max-height: 500px;
+  opacity: 1;
+}
+
 .repo-container.shake {
   animation: horizontal-shaking 0.5s ease-in-out;
 }

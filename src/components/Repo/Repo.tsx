@@ -46,14 +46,14 @@ function Repo({ name, size, owner }: RepoProps) {
 
   const handleFetchComplete = (fetchedData: any, fetchError: any) => {
     if (fetchError) {
-      setIsLoading(false);
       setIsOpen(false);
       setError(fetchError);
+      setTimeout(() => setError(null), 500);
     } else {
-      setIsLoading(false);
       setData(fetchedData);
       setError(null);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -83,14 +83,16 @@ function Repo({ name, size, owner }: RepoProps) {
         color={isLoading ? 'warning' : 'success'}
         invisible={!isLoading && !data}
       />
-      {isOpen && (
-        <RepoDetails
-          owner={owner.login}
-          repoName={name}
-          onFetchComplete={handleFetchComplete}
-          existingData={data}
-        />
-      )}
+      <div className={`repo-details-container ${isOpen && data ? 'open' : ''}`}>
+        {isOpen && (
+          <RepoDetails
+            owner={owner.login}
+            repoName={name}
+            onFetchComplete={handleFetchComplete}
+            existingData={data}
+          />
+        )}
+      </div>
     </div>
   );
 }
