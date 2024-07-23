@@ -1,0 +1,21 @@
+.pagination {
+  margin: auto;
+  max-width: 1000px;
+  min-width: 550px;
+}
+
+#github-token {
+  color: var(--color-fg-muted);
+}
+
+#search {
+  width: 20%;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  display: inline-block;
+  height: 54px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

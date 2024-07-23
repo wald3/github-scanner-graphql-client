@@ -49,8 +49,16 @@ function RepoDetails({
     skip: !!existingData,
     onCompleted: (data) => onFetchComplete(data, null),
     onError: (error) => {
-      const msg = (error as any).networkError['result']['errors'][0]['message'];
-      showSnackbar(msg);
+      // console.error({ error });
+      const msg = (error as any).networkError?.['result']?.['errors']?.[0]?.[
+        'message'
+      ];
+
+      if (msg) showSnackbar(msg);
+      if (error.graphQLErrors && error.graphQLErrors?.[0]?.message) {
+        showSnackbar(error.graphQLErrors[0].message);
+      }
+
       onFetchComplete(null, error);
     },
   });
@@ -100,7 +108,7 @@ function RepoDetails({
         </div>
         {fileContent && (
           <div className="repo-file-content">
-            <p>File content:</p>
+            <p>File content: </p>
 
             <SyntaxHighlighter showLineNumbers language="yaml" style={dark}>
               {fileContent}

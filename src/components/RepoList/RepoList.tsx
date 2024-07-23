@@ -1,18 +1,26 @@
 import { useQuery } from '@apollo/client';
-import { CircularProgress, List, MenuItem, Paper, Select } from '@mui/material';
-import { useState } from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import { CircularProgress, List, Paper } from '@mui/material';
 import { GET_REPOS } from '../../graphql/queries';
 import Repo from '../Repo/Repo';
 import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import './RepoList.css';
 
-function RepoList() {
-  const [pageItems, setPageItems] = useState(100);
+interface RepoListProps {
+  pageItems: number;
+  token: string;
+  searchInitiated: boolean;
+}
+
+function RepoList({ pageItems, token, searchInitiated }: RepoListProps) {
   const { showSnackbar } = useSnackbar();
 
   const { loading, data, error } = useQuery(GET_REPOS, {
-    variables: { pageItems, page: 1 },
+    variables: { pageItems, page: 1, token },
+    skip: !searchInitiated,
     onError: (error) => {
+      console.log(`RepoList ${':'}`, { error });
+
       if (error.graphQLErrors) {
         error.graphQLErrors.forEach(({ message }) => console.error(message));
       }
@@ -20,12 +28,30 @@ function RepoList() {
     },
   });
 
-  if (loading) return <CircularProgress />;
+  if (!searchInitiated || (searchInitiated && loading)) {
+    return (
+      <div className="icon-holder">
+        <Paper
+          className="icon-holder"
+          style={{ minHeight: '1000px', overflow: 'auto' }}
+        >
+          <div className="search-icon">
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <SearchIcon style={{ fontSize: 100, color: 'gray' }} />
+            )}
+          </div>
+        </Paper>
+      </div>
+    );
+  }
+
   if (error) return null;
 
   return (
     <div className="repo-list">
-      <Paper style={{ maxHeight: '800px', overflow: 'auto' }}>
+      <Paper style={{ maxHeight: '1000px', overflow: 'auto' }}>
         <List>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {data?.repositories.map((repo: any) => (
@@ -38,19 +64,6 @@ function RepoList() {
           ))}
         </List>
       </Paper>
-
-      <div className="pagination">
-        <Select
-          className="page-items"
-          value={pageItems}
-          onChange={(e) => setPageItems(e.target.value as number)}
-        >
-          <MenuItem value={10}>10</MenuItem>
-          <MenuItem value={25}>25</MenuItem>
-          <MenuItem value={50}>50</MenuItem>
-          <MenuItem value={100}>100</MenuItem>
-        </Select>
-      </div>
     </div>
   );
 }

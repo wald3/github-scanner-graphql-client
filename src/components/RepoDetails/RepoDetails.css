@@ -25,7 +25,9 @@
   transform: scale(1.2);
 }
 
-.repo-file-content {
+.repo-file-content > pre {
   text-align: left;
   border-radius: var(--border-radius-medium);
+  overflow: auto;
+  max-height: 500px;
 }

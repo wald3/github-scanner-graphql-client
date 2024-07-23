@@ -1,6 +1,6 @@
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import './App.css';
-import RepoList from './components/RepoList/RepoList';
+import RepoSearch from './components/RepoSearch/RepoSearch';
 import { SnackbarProvider } from './components/sub-components/SnackbarAlert/SnackbarAlert';
 
 const client = new ApolloClient({
@@ -13,7 +13,7 @@ function App() {
     <SnackbarProvider>
       <ApolloProvider client={client}>
         <div className="App">
-          <RepoList />
+          <RepoSearch />
         </div>
       </ApolloProvider>
     </SnackbarProvider>
