@@ -26,19 +26,38 @@ const RepoIcon = () => {
 function Repo({ name, size, owner }: RepoProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleToggle = () => {
-    if (!isLoading) {
-      setIsLoading(true);
+    if (isLoading) return;
+
+    if (data) {
       setIsOpen(!isOpen);
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+    } else if (error) {
+      setError(null);
+      setIsOpen(false);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      setIsOpen(true);
+    }
+  };
+
+  const handleFetchComplete = (fetchedData: any, fetchError: any) => {
+    if (fetchError) {
+      setIsLoading(false);
+      setIsOpen(false);
+      setError(fetchError);
+    } else {
+      setIsLoading(false);
+      setData(fetchedData);
+      setError(null);
     }
   };
 
   return (
-    <div className="repo-container">
+    <div className={`repo-container ${error ? 'shake' : ''}`}>
       <ListItem
         button
         onClick={handleToggle}
@@ -46,7 +65,7 @@ function Repo({ name, size, owner }: RepoProps) {
         className="repo-item"
       >
         <div className="repo-name">
-          <RepoIcon></RepoIcon>
+          <RepoIcon />
           <p>{name}</p>
         </div>
         <div className="repo-info">
@@ -62,10 +81,15 @@ function Repo({ name, size, owner }: RepoProps) {
         className="repo-badge"
         badgeContent={isLoading ? <CircularProgress size={10} /> : '✔'}
         color={isLoading ? 'warning' : 'success'}
-        //   invisible={!isLoading && !isOpen}
+        invisible={!isLoading && !data}
       />
-      {isOpen && !isLoading && (
-        <RepoDetails owner={owner.login} repoName={name} />
+      {isOpen && (
+        <RepoDetails
+          owner={owner.login}
+          repoName={name}
+          onFetchComplete={handleFetchComplete}
+          existingData={data}
+        />
       )}
     </div>
   );

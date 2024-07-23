@@ -1,41 +1,52 @@
 import { useQuery } from '@apollo/client';
-import { CircularProgress, List, ListItem } from '@mui/material';
-import { GET_REPO_DETAILS } from './../../graphql/queries';
-import './RepoDetails.css';
-
 import {
   FindInPageOutlined as FindInPageOutlinedIcon,
   InsertDriveFileOutlined as InsertDriveFileOutlinedIcon,
   LockOpenOutlined as LockOpenOutlinedIcon,
   LockOutlined as LockOutlinedIcon,
 } from '@mui/icons-material';
+import { List, ListItem } from '@mui/material';
 import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import WebhookList from '../sub-components/WebHookList/WebhookList';
+import { GET_REPO_DETAILS } from './../../graphql/queries';
+import './RepoDetails.css';
+
 interface RepoDetailsProps {
   owner: string;
   repoName: string;
+  onFetchComplete: (data: any, error: any) => void;
+  existingData: any;
 }
 
-function RepoDetails({ owner, repoName }: RepoDetailsProps) {
+function RepoDetails({
+  owner,
+  repoName,
+  onFetchComplete,
+  existingData,
+}: RepoDetailsProps) {
   const { showSnackbar } = useSnackbar();
+
   const { loading, data, error } = useQuery(GET_REPO_DETAILS, {
     variables: { owner, repoName },
+    skip: !!existingData,
+    onCompleted: (data) => onFetchComplete(data, null),
     onError: (error) => {
       const msg = (error as any).networkError['result']['errors'][0]['message'];
       showSnackbar(msg);
+      onFetchComplete(null, error);
     },
   });
 
-  if (loading) return <CircularProgress />;
-
+  if (loading) return null;
   if (error) return null;
 
+  const repoData = existingData || data;
   const {
     private: isPrivate,
     fileCount,
     fileContent,
     webhooks,
-  } = data.repositoryDetails;
+  } = repoData.repositoryDetails;
 
   return (
     <div className="repo-details">
@@ -62,7 +73,7 @@ function RepoDetails({ owner, repoName }: RepoDetailsProps) {
         </div>
       </div>
 
-      <WebhookList webhooks={['a'.repeat(30), 'b'.repeat(30)]}></WebhookList>
+      <WebhookList webhooks={webhooks} />
 
       <List>
         {webhooks?.map((hook: string, index: number) => (

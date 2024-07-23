@@ -1,47 +1,30 @@
 import { useQuery } from '@apollo/client';
-import {
-  CircularProgress,
-  List,
-  MenuItem,
-  Paper,
-  Select,
-  Snackbar,
-} from '@mui/material';
-import React, { useState } from 'react';
+import { CircularProgress, List, MenuItem, Paper, Select } from '@mui/material';
+import { useState } from 'react';
 import { GET_REPOS } from '../../graphql/queries';
 import Repo from '../Repo/Repo';
+import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
 import './RepoList.css';
 
 function RepoList() {
   const [pageItems, setPageItems] = useState(10);
-  const [page, setPage] = useState(1);
-  const [error, setError] = useState<string | null>(null);
-  const {
-    loading,
-    data,
-    error: queryError,
-  } = useQuery(GET_REPOS, {
-    variables: { pageItems, page },
+  const { showSnackbar } = useSnackbar();
+
+  const { loading, data, error } = useQuery(GET_REPOS, {
+    variables: { pageItems, page: 1 },
+    onError: (error) => {
+      if (error.graphQLErrors) {
+        error.graphQLErrors.forEach(({ message }) => console.error(message));
+      }
+      showSnackbar(error.message);
+    },
   });
 
-  React.useEffect(() => {
-    if (queryError) {
-      setError(queryError.message);
-      const timer = setTimeout(() => setError(null), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [queryError]);
-
   if (loading) return <CircularProgress />;
-
-  if (queryError) return null;
+  if (error) return null;
 
   return (
     <div className="repo-list">
-      {error && (
-        <Snackbar open={true} message={error} autoHideDuration={5000} />
-      )}
-
       <Paper style={{ maxHeight: '800px', overflow: 'auto' }}>
         <List>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}

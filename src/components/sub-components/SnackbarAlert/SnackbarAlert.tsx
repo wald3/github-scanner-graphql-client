@@ -49,7 +49,7 @@ export const SnackbarProvider: React.FC<SnackbarProviderProps> = ({
         className="alert-snackbar"
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         open={snackbarOpen}
-        // autoHideDuration={6000}
+        autoHideDuration={3000}
         onClose={handleCloseSnackbar}
       >
         <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity}>
