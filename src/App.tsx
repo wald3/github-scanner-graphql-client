@@ -11,6 +11,7 @@ const client = new ApolloClient({
 
 function App() {
   const [refetchFunction, setRefetchFunction] = useState<
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ((variables?: any) => void) | null
   >(null);
 

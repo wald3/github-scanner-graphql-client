@@ -1,3 +1,4 @@
+import { ApolloError } from '@apollo/client';
 import { Badge, Box, Chip, CircularProgress, ListItem } from '@mui/material';
 import { useState } from 'react';
 import RepoDetails from '../RepoDetails/RepoDetails';
@@ -27,8 +28,8 @@ const RepoIcon = () => {
 function Repo({ name, size, owner, accessToken }: RepoProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [data, setData] = useState<RepoDetails | null>(null);
+  const [error, setError] = useState<ApolloError | null>(null);
 
   const handleToggle = () => {
     if (isLoading) return;
@@ -45,7 +46,10 @@ function Repo({ name, size, owner, accessToken }: RepoProps) {
     }
   };
 
-  const handleFetchComplete = (fetchedData: any, fetchError: any) => {
+  const handleFetchComplete = (
+    fetchedData: RepoDetails | null,
+    fetchError: ApolloError | null,
+  ) => {
     if (fetchError) {
       setIsOpen(false);
       setError(fetchError);

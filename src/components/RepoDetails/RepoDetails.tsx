@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { ApolloError, useQuery } from '@apollo/client';
 import {
   FindInPageOutlined as FindInPageOutlinedIcon,
   InsertDriveFileOutlined as InsertDriveFileOutlinedIcon,
@@ -33,7 +33,10 @@ interface RepoDetailsProps {
   owner: string;
   repoName: string;
   accessToken: string;
-  onFetchComplete: (data: RepoDetails | null, error: any) => void;
+  onFetchComplete: (
+    data: RepoDetails | null,
+    error: ApolloError | null,
+  ) => void;
   existingData: RepoDetails | null;
 }
 
@@ -51,6 +54,7 @@ function RepoDetails({
     skip: !!existingData,
     onCompleted: (data) => onFetchComplete(data, null),
     onError: (error) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const msg = (error as any).networkError?.['result']?.['errors']?.[0]?.[
         'message'
       ];

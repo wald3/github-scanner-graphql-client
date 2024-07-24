@@ -1,7 +1,7 @@
-import { ApolloError, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Error, Search } from '@mui/icons-material';
 import { CircularProgress, List, Paper } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { GET_REPOS } from '../../graphql/queries';
 import Repo from '../Repo/Repo';
 import { useSnackbar } from '../sub-components/SnackbarAlert/SnackbarAlert';
@@ -16,11 +16,7 @@ interface RepoListProps {
 
 function RepoList({ pageItems, token, setRefetchFunction }: RepoListProps) {
   const { showSnackbar } = useSnackbar();
-  const [queryError, setQueryError] = useState<ApolloError | null>(null);
 
-  // console.log({
-  //   useQuery: token ? `calling + ${token}` : `skip + refresh`,
-  // });
   const { loading, data, error, refetch } = useQuery(GET_REPOS, {
     variables: { pageItems, page: 1, token },
     skip: !token,
@@ -29,13 +25,11 @@ function RepoList({ pageItems, token, setRefetchFunction }: RepoListProps) {
         error.graphQLErrors.forEach(({ message }) => console.error(message));
       }
       showSnackbar(error.message);
-      setQueryError(error);
     },
   });
 
   useEffect(() => {
     setRefetchFunction(() => refetch);
-    // console.log({ 'refresh with token': token });
   }, [setRefetchFunction, refetch]);
 
   return (

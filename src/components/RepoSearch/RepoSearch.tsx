@@ -5,6 +5,7 @@ import './RepoSearch.css';
 
 type SearchProps = {
   onRefetch: (token: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setRefetchFunction: (refetchFunction: (variables?: any) => void) => void;
 };
 
