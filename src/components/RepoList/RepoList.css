@@ -4,14 +4,11 @@
   min-height: 550px;
   max-height: 1000px;
   text-align: center;
+  vertical-align: middle;
   margin: 0 auto;
   position: relative;
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 }
 
-.icons {
-  margin: 0;
-  transform: translate(-50%, -50%) scale(2);
+.icons > .MuiSvgIcon-root {
+  transform: scale(0.5);
 }

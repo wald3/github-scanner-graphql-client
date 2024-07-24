@@ -47,8 +47,7 @@ function RepoList({ pageItems, token, setRefetchFunction }: RepoListProps) {
           overflow: 'auto',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          // alignItems: 'center',
+          justifyContent: !data?.repositories ? 'center' : 'flex-start',
         }}
       >
         {!data?.repositories && (
@@ -63,7 +62,7 @@ function RepoList({ pageItems, token, setRefetchFunction }: RepoListProps) {
           </div>
         )}
 
-        <List>
+        <List style={{ justifySelf: 'start' }}>
           {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
           {data?.repositories?.map((repo: any) => (
             <Repo
