@@ -10,6 +10,7 @@ interface User {
 interface RepoProps {
   name: string;
   size: number;
+  accessToken: string;
   owner: User;
 }
 
@@ -23,7 +24,7 @@ const RepoIcon = () => {
   );
 };
 
-function Repo({ name, size, owner }: RepoProps) {
+function Repo({ name, size, owner, accessToken }: RepoProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
@@ -88,6 +89,7 @@ function Repo({ name, size, owner }: RepoProps) {
           <RepoDetails
             owner={owner.login}
             repoName={name}
+            accessToken={accessToken}
             onFetchComplete={handleFetchComplete}
             existingData={data}
           />

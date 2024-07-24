@@ -3,15 +3,23 @@ import { useState } from 'react';
 import RepoList from '../RepoList/RepoList';
 import './RepoSearch.css';
 
-function RepoSearch() {
-  const [pageItems, setPageItems] = useState(100);
-  const [token, setToken] = useState('');
-  const [searchToken, setSearchToken] = useState('');
-  const [searchInitiated, setSearchInitiated] = useState(false);
+type SearchProps = {
+  onRefetch: (token: string) => void;
+  setRefetchFunction: (refetchFunction: (variables?: any) => void) => void;
+};
 
-  const handleSearch = () => {
-    setSearchToken(token);
-    setSearchInitiated(true);
+function RepoSearch({ onRefetch, setRefetchFunction }: SearchProps) {
+  const [pageItems, setPageItems] = useState(10);
+  const [inputValue, setInputValue] = useState('');
+  const [token, setToken] = useState('');
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleRefetchClick = () => {
+    setToken(inputValue);
+    onRefetch(inputValue);
   };
 
   return (
@@ -25,10 +33,10 @@ function RepoSearch() {
           label="GitHub Access Token"
           placeholder="Paste your GitHub Token here"
           focused
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
+          value={inputValue}
+          onChange={handleInputChange}
         />
-        <Button id="search" variant="contained" onClick={handleSearch}>
+        <Button id="search" variant="contained" onClick={handleRefetchClick}>
           Find Repositories
         </Button>
         <Select
@@ -44,8 +52,8 @@ function RepoSearch() {
       </div>
       <RepoList
         pageItems={pageItems}
-        token={searchToken}
-        searchInitiated={searchInitiated}
+        token={token}
+        setRefetchFunction={setRefetchFunction}
       />
     </div>
   );

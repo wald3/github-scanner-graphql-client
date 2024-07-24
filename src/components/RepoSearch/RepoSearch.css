@@ -2,6 +2,10 @@
   margin: auto;
   max-width: 1000px;
   min-width: 550px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 24px;
 }
 
 #github-token {

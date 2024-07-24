@@ -32,6 +32,7 @@ export interface Webhook {
 interface RepoDetailsProps {
   owner: string;
   repoName: string;
+  accessToken: string;
   onFetchComplete: (data: RepoDetails | null, error: any) => void;
   existingData: RepoDetails | null;
 }
@@ -39,17 +40,17 @@ interface RepoDetailsProps {
 function RepoDetails({
   owner,
   repoName,
+  accessToken,
   onFetchComplete,
   existingData,
 }: RepoDetailsProps) {
   const { showSnackbar } = useSnackbar();
 
   const { loading, data, error } = useQuery<RepoDetails>(GET_REPO_DETAILS, {
-    variables: { owner, repoName },
+    variables: { owner, repoName, token: accessToken },
     skip: !!existingData,
     onCompleted: (data) => onFetchComplete(data, null),
     onError: (error) => {
-      // console.error({ error });
       const msg = (error as any).networkError?.['result']?.['errors']?.[0]?.[
         'message'
       ];
